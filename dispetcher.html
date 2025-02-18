@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Telegram Job Service</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            background-color: #f4f4f9;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 400px;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        input, textarea, button {
+            margin-bottom: 15px;
+            padding: 10px;
+            font-size: 1rem;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        button {
+            background-color: #0078d7;
+            color: white;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #005bb5;
+        }
+
+        textarea {
+            resize: none;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="container" id="app">
+        <h1>Создать вакансию</h1>
+        <form id="jobForm">
+            <input type="text" id="description" placeholder="Описание работы" required>
+            <input type="date" id="date" required>
+            <input type="time" id="time" required>
+            <input type="text" id="payment" placeholder="Оплата" required>
+            <textarea id="details" rows="4" placeholder="Дополнительные детали" required></textarea>
+            <button type="submit">Отправить</button>
+        </form>
+    </div>
+
+    <script>
+        const tg = window.Telegram.WebApp;
+
+        // Expand the web app to fullscreen
+        tg.expand();
+
+        // Form submission handler
+        document.getElementById('jobForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const jobData = {
+                description: document.getElementById('description').value,
+                date: document.getElementById('date').value,
+                time: document.getElementById('time').value,
+                payment: document.getElementById('payment').value,
+                details: document.getElementById('details').value,
+            };
+
+            // Send data back to bot
+            tg.sendData(JSON.stringify(jobData));
+
+            // Show a success message
+            alert('Вакансия отправлена!');
+
+            // Optionally close the web app
+            tg.close();
+        });
+    </script>
+</body>
+</html>
